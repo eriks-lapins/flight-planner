@@ -8,6 +8,7 @@ namespace FlightPlanner.Models
     public class FlightStorage
     {
         public static List<Flight> AllFlights = new List<Flight>() ;
+        public static List<SearchFlightsRequest> SelectedFlights = new List<SearchFlightsRequest>();
         private static int _id;
         public static Flight AddFlight(Flight input)
         {
@@ -16,6 +17,11 @@ namespace FlightPlanner.Models
             AllFlights.Add(input);
 
             return input;
+        }
+
+        public static void AddSelectedFlight(SearchFlightsRequest input)
+        {
+            SelectedFlights.Add(input);
         }
 
         public static Flight FindFlightById(int id)
@@ -48,6 +54,11 @@ namespace FlightPlanner.Models
         private static string CleanText(string input)
         {
             return input.ToUpper().Trim();
+        }
+
+        public static void ResetId()
+        {
+            _id = 0;
         }
     }
 }

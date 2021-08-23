@@ -69,42 +69,41 @@ namespace FlightPlanner.Controllers
 
         private bool IsDuplicateRequest(AddFlightRequest input)
         {
-            var tempList = new List<Flight>(FlightStorage.AllFlights);
-            if (tempList != null)
+            var tempList = new List<Flight>();
+            tempList.AddRange((FlightStorage.AllFlights));
+
+            foreach (Flight flight in tempList)
             {
-                foreach (Flight flight in tempList)
+                if (flight != null)
                 {
-                    if (flight != null)
+                    if
+                    (
+                        flight.From != null &&
+                        flight.To != null &&
+                        input.To != null &&
+                        input.From != null
+                    )
                     {
                         if
                         (
-                            flight.From != null &&
-                            flight.To != null &&
-                            input.To != null &&
-                            input.From != null
+                            input.ArrivalTime == flight.ArrivalTime &&
+                            input.DepartureTime == flight.DepartureTime &&
+                            input.From.AirportName == flight.From.AirportName &&
+                            input.From.City == flight.From.City &&
+                            input.From.Country == flight.From.Country &&
+                            input.To.AirportName == flight.To.AirportName &&
+                            input.To.City == flight.To.City &&
+                            input.To.Country == flight.To.Country &&
+                            input.Carrier == flight.Carrier
                         )
                         {
-                            if
-                            (
-                                input.ArrivalTime == flight.ArrivalTime &&
-                                input.DepartureTime == flight.DepartureTime &&
-                                input.From.AirportName == flight.From.AirportName &&
-                                input.From.City == flight.From.City &&
-                                input.From.Country == flight.From.Country &&
-                                input.To.AirportName == flight.To.AirportName &&
-                                input.To.City == flight.To.City &&
-                                input.To.Country == flight.To.Country &&
-                                input.Carrier == flight.Carrier
-                            )
-                            {
-                                return true;
-                            }
-
+                            return true;
                         }
+
                     }
                 }
             }
-            
+                
             return false;
         }
 
