@@ -160,13 +160,11 @@
     <Compile Include="Controllers\CustomerApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestingApiController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AddFlightRequest.cs" />
     <Compile Include="Models\Airport.cs" />
-    <Compile Include="Models\AxiosConfig.cs" />
     <Compile Include="Models\Flight.cs" />
     <Compile Include="Models\FlightStorage.cs" />
     <Compile Include="Models\PageResult.cs" />

@@ -34,7 +34,7 @@ namespace FlightPlanner.Controllers
         public IHttpActionResult SearchFlights(SearchFlightsRequest search)
         {
             var page = new PageResult();
-            if (IsWrongFormat(search) || HasSameAirport(search))
+            if (!IsCorrectFormat(search) || HasSameAirport(search))
             {
                 return BadRequest();
             }
@@ -101,11 +101,11 @@ namespace FlightPlanner.Controllers
             return input.ToUpper().Trim();
         }
 
-        private static bool IsWrongFormat(SearchFlightsRequest input)
+        private static bool IsCorrectFormat(SearchFlightsRequest input)
         {
             if (input == null)
             {
-                return true;
+                return false;
             }
             var unwantedSymbols = new Object[] { null, "" };
             var inputValues = new List<Object>();
@@ -120,19 +120,19 @@ namespace FlightPlanner.Controllers
             }
             else
             {
-                return true;
+                return false;
             }
 
             foreach (var value in unwantedSymbols)
             {
                 if (inputValues.Contains(value))
                 {
-                    return true;
+                    return false;
                 }
             }
 
 
-            return false;
+            return true;
         }
 
         private static bool HasSameAirport(SearchFlightsRequest input)
@@ -159,13 +159,8 @@ namespace FlightPlanner.Controllers
             {
                 return false;
             }
-            if (input.AirportName != null || input.City != null || input.Country != null)
-            {
-                return true;
-            }
 
-            return false;
+            return (input.AirportName != null || input.City != null || input.Country != null);
         }
-
     }
 }
