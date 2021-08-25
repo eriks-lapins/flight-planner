@@ -113,17 +113,17 @@ namespace FlightPlanner.Controllers
             {
                 inputValues.AddRange(new List<Object>
                 {
-                input.ArrivalTime,
-                input.DepartureTime,
-                input.To,
-                input.From,
-                input.Carrier,
-                input.From.AirportName,
-                input.From.City,
-                input.From.Country,
-                input.To.City,
-                input.To.Country,
-                input.Carrier
+                    input.ArrivalTime,
+                    input.DepartureTime,
+                    input.To,
+                    input.From,
+                    input.Carrier,
+                    input.From.AirportName,
+                    input.From.City,
+                    input.From.Country,
+                    input.To.City,
+                    input.To.Country,
+                    input.Carrier
                 });
             }
             else
