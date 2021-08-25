@@ -38,7 +38,7 @@ namespace FlightPlanner.Controllers
                 Carrier = input.Carrier
             };
 
-            if (IsWrongFormat(input) || HasSameAirport(input) || HasStrangeDates(input))
+            if (!IsCorrectFormat(input) || HasSameAirport(input) || HasStrangeDates(input))
             {
                 return BadRequest();
             }
@@ -69,7 +69,7 @@ namespace FlightPlanner.Controllers
 
         private bool IsDuplicateRequest(AddFlightRequest input)
         {
-            var tempList = new List<Flight>();
+            var tempList = new List<Flight>(); //Changing this often leads to more frequent concurrency test failures.
             tempList.AddRange((FlightStorage.AllFlights));
 
             foreach (Flight flight in tempList)
@@ -96,10 +96,8 @@ namespace FlightPlanner.Controllers
                             input.To.Country == flight.To.Country &&
                             input.Carrier == flight.Carrier
                         )
-                        {
-                            return true;
-                        }
 
+                            return true;
                     }
                 }
             }
@@ -107,43 +105,42 @@ namespace FlightPlanner.Controllers
             return false;
         }
 
-        private bool IsWrongFormat(AddFlightRequest input)
+        private bool IsCorrectFormat(AddFlightRequest input)
         {
-
             var unwantedSymbols = new Object[] {null, "" };
             var inputValues = new List<Object>();
             if (input.To != null && input.From != null)
             {
                 inputValues.AddRange(new List<Object>
-                    {
-                        input.ArrivalTime,
-                        input.DepartureTime,
-                        input.To,
-                        input.From,
-                        input.Carrier,
-                        input.From.AirportName,
-                        input.From.City,
-                        input.From.Country,
-                        input.To.City,
-                        input.To.Country,
-                        input.Carrier
-                    });
+                {
+                    input.ArrivalTime,
+                    input.DepartureTime,
+                    input.To,
+                    input.From,
+                    input.Carrier,
+                    input.From.AirportName,
+                    input.From.City,
+                    input.From.Country,
+                    input.To.City,
+                    input.To.Country,
+                    input.Carrier
+                });
             }
             else
             {
-                return true;
+                return false;
             }
 
             foreach (var value in unwantedSymbols)
             {
                 if (inputValues.Contains(value))
                 {
-                    return true;
+                    return false;
                 }
             }
             
 
-            return false;
+            return true;
         }
 
         private bool HasSameAirport(AddFlightRequest input)
